@@ -371,15 +371,23 @@ h1, h2, h3, h4, h5, h6, [id] { scroll-margin-top: 120px; }
                 <ul id="vinaya-menu-list"></ul>
             </div>
             
-            <div id="mogok-sect" class="tab-section" style="display: none; max-height: 400px; overflow-y: auto;">
-    <ul id="mogok-menu-list">
+       <div id="mogok-sect" class="tab-section" style="display: none; max-height: 400px; overflow-y: auto;">
+    <ul id="mogok-menu-list" style="padding: 0; margin: 0;">
         
-        <li onclick="closePopup(); loadMogokSite();" style="padding: 12px; border-bottom: 1px solid #eee; cursor: pointer; list-style-type: none; font-size: 18px; color: #8B4513; font-weight: bold;">
-            🙏 မိုးကုတ် တရားစာအုပ်နှင့် အသံဖိုင်များ
+        <li onclick="closePopup(); loadMogokSite('https://mogokmeditation.com/');" style="padding: 12px; border-bottom: 1px solid #eee; cursor: pointer; list-style-type: none; font-size: 18px; color: #8B4513; font-weight: bold;">
+            🙏 မိုးကုတ် တရားစာအုပ်များ
         </li>
         
+        <li style="list-style-type: none; padding: 10px 12px;">
+            <a href="mogok-mp3-420.html" style="display: block; padding: 12px; background-color: #b30000; color: white; text-decoration: none; text-align: center; border-radius: 5px; font-weight: bold; font-size: 16px;">
+                🎵 မိုးကုတ်တရားတော်များ (MP3 ၄၂၀ ပုဒ်)
+            </a>
+        </li>
+
     </ul>
 </div>
+
+
             
             <div id="wiki-sect" class="tab-section" style="display: none; max-height: 400px; overflow-y: auto;">
                 <ul id="wiki-menu-list"></ul>
@@ -991,9 +999,10 @@ async function liveSearchCombined() {
     }, 400); 
 }
     // 💡 targetUrl ကို အပြောင်းအလဲလုပ်နိုင်ရန် ပြင်ဆင်ထားပါသည်
+// 🎯 ၄၂၀ ပုဒ် အော်ဒီယိုစာမျက်နှာအတွက် သီးသန့်ဖန်ရှင်အသစ်
 async function loadMogokSite(targetUrl = "https://mogokmeditation.com/") {
     const cBox = document.getElementById('content');
-    cBox.innerHTML = "<p style='text-align:center; padding: 20px;'>ခေတ္တစောင့်ဆိုင်းပါ၊ တရားတော်များ တင်နေပါသည်...</p>";
+    cBox.innerHTML = "<p style='text-align:center; padding: 20px;'>ခေတ္တစောင့်ဆိုင်းပါ...</p>";
     
     const baseUrl = "https://script.google.com/macros/s/AKfycbyINzJDDXCQ_1z85ISAGKWrFgSv4dXt4G2TwtEyr1Nll4zKi1go9SrCmOSYZFZXs3U6/exec";
     const fetchUrl = baseUrl + "?url=" + encodeURIComponent(targetUrl);
@@ -1002,74 +1011,34 @@ async function loadMogokSite(targetUrl = "https://mogokmeditation.com/") {
         const res = await fetch(fetchUrl);
         let htmlText = await res.text();
         
+        // 💡 ပြင်ဆင်ချက် - ဝက်ဘ်ဆိုက်မှလာသော HTML ထဲမှ အရေးကြီးသည့်အပိုင်း (Main Content) ကိုသာ ဖြတ်ထုတ်ယူခြင်း
+        // များသောအားဖြင့် WordPress ဆိုက်များတွင် <main> သို့မဟုတ် <article> သို့မဟုတ် <div id='main'> တွင် စာများရှိတတ်သည်
         const parser = new DOMParser();
         const doc = parser.parseFromString(htmlText, 'text/html');
         
+        // အရေးကြီးဆုံးအချက် - ဝက်ဘ်ဆိုက်၏ အဓိက Content အပိုင်းကို ရှာဖွေခြင်း (Selector ကို စစ်ဆေးပါ)
         let contentElement = doc.querySelector('main') || doc.querySelector('.entry-content') || doc.querySelector('#primary') || doc.body;
         
-        const baseDomain = "https://mogokmeditation.com";
-
-        // (က) Audio, Source နှင့် Img ဖိုင်များ၏ လမ်းကြောင်းများကို အပြည့်အစုံပြောင်းခြင်း
-        contentElement.querySelectorAll("audio, source, img").forEach(el => {
-            let src = el.getAttribute("src");
-            if (src && !src.startsWith("http") && !src.startsWith("data:")) {
-                el.setAttribute("src", new URL(src, baseDomain).href);
-            }
-        });
-
-        // (ခ) HTML5 Audio Player အတွက် Controls များနှင့် ပုံစံညှိခြင်း
-        contentElement.querySelectorAll("audio").forEach(audio => {
-            audio.setAttribute("controls", "controls");
-            audio.style.width = "100%";
-            
-            // Audio အထဲက <source> tag တွေရှိရင်လည်း လမ်းကြောင်းလိုက်ပြင်ပေးခြင်း
-            audio.querySelectorAll("source").forEach(source => {
-                let sSrc = source.getAttribute("src");
-                if (sSrc && !sSrc.startsWith("http")) {
-                    source.setAttribute("src", new URL(sSrc, baseDomain).href);
-                }
-            });
-        });
-
-        // (ဂ) Link (<a> tag) အားလုံး၏ href များကို Absolute URL ပြောင်းခြင်း
-        contentElement.querySelectorAll("a").forEach(link => {
-            let href = link.getAttribute("href");
-            if (href && !href.startsWith("http") && !href.startsWith("#") && !href.startsWith("javascript:")) {
-                link.setAttribute("href", new URL(href, baseDomain).href);
-            }
-        });
-
-        // 🎯 ပြင်ဆင်ချက် - innerHTML အစား appendChild သုံးပြီး HTML Object အတိုင်း တိုက်ရိုက်ထည့်သွင်းခြင်း
-        cBox.innerHTML = ""; // စာသားအဟောင်းကို ရှင်းထုတ်
-        cBox.appendChild(contentElement); // ဒြပ်စင်အသစ်ကို ပေါင်းထည့်
-
-        // 🎯 အရေးကြီးဆုံးအပိုင်း - Browser ကို အသံဖိုင်များ အတင်းပြန်ဆွဲခိုင်းခြင်း (Force Reload Audio)
-        cBox.querySelectorAll("audio").forEach(audio => {
-            audio.load();
-        });
+        cBox.innerHTML = contentElement.innerHTML; 
         
-        // 🔗 လင့်ခ်များကို နှိပ်သည့်အခါ Single Page App အဖြစ် ဆက်လုပ်မည့်အပိုင်း
+        // 🔗 လင့်ခ်များကို Intercept ပြန်လုပ်ခြင်း
         cBox.querySelectorAll("a").forEach(link => {
             link.addEventListener("click", function(e) {
                 let href = this.getAttribute("href");
-                
-                if (!href || href.startsWith("#") || href.startsWith("javascript:")) return;
-                
-                if (href.includes(".mp3") || href.includes(".pdf")) {
-                    return; // MP3/PDF ဆိုလျှင် Browser သဘာဝအတိုင်း ဒေါင်းလုဒ်ဆွဲ/ဖွင့်ခွင့်ပေးမည်
-                }
+                if (!href || href.startsWith("#") || href.includes(".mp3") || href.includes(".pdf")) return;
                 
                 e.preventDefault();
-                loadMogokSite(href); 
+                // Relative link ဆိုလျှင် absolute ပြောင်းခြင်း
+                if (href.startsWith("/")) href = "https://mogokmeditation.com" + href;
+                
+                loadMogokSite(href); // recursive ခေါ်ခြင်း
             });
         });
         
     } catch(e) {
-        console.error(e);
         cBox.innerHTML = "<p style='text-align:center; color: red;'>စာမျက်နှာကို တင်ပြ၍ မရနိုင်ပါ။</p>";
     }
 }
-
 // 🖨️ ပရင့်စနစ်ကို လှမ်းခေါ်သည့် လုပ်ဆောင်ချက်
 function startPrint() {
     window.print();
