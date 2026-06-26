@@ -3,173 +3,333 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ဓမ္မပဒ၊ ငါးရာ့ငါးဆယ်နှင့် အဋ္ဌကထာနိဿယျ</title>
+    <title>ကမ္မဋ္ဌာန်းတရားများ</title>
     <style>
-    /* Google ရဲ့ Myanmar Font ကိုပါ လှမ်းခေါ်ထားခြင်း */
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Myanmar:wght@400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Myanmar:wght@400;700&display=swap');
 
-/* စာဖတ်တဲ့ နေရာကို ဒီ Font သုံးဖို့ ခိုင်းထားမယ် */
-#reader-card {
-    font-family: 'Noto Sans Myanmar', 'Pyidaungsu', sans-serif !important;
-}
+    #reader-card {
+        font-family: 'Noto Sans Myanmar', 'Pyidaungsu', sans-serif !important;
+    }
 
-        :root {
-            --sidebar-width: 280px;
-            --bg-body: #f0f0f0; --bg-card: #ffffff; --text-main: #2c3e50; --topbar-bg: #2c3e50; --hr-color: #eee;
-        }
-        /* Themes */
-        body.sepia-mode { --bg-body: #f1e7d0; --bg-card: #fdf6e3; --text-main: #5b4636; --topbar-bg: #5b4636; --hr-color: #dcd3bc; }
-        body.dark-mode { --bg-body: #121212; --bg-card: #1e1e1e; --text-main: #d1d1d1; --topbar-bg: #000000; --hr-color: #333; }
+    :root {
+        --sidebar-width: 280px;
+        --bg-body: #f0f0f0; --bg-card: #ffffff; --text-main: #2c3e50; --topbar-bg: #2c3e50; --hr-color: #eee;
+    }
+    
+    body.sepia-mode { --bg-body: #f1e7d0; --bg-card: #fdf6e3; --text-main: #5b4636; --topbar-bg: #5b4636; --hr-color: #dcd3bc; }
+    body.dark-mode { --bg-body: #121212; --bg-card: #1e1e1e; --text-main: #d1d1d1; --topbar-bg: #000000; --hr-color: #333; }
 
-        body { 
-            font-family: 'Pyidaungsu', 'Sagar', sans-serif; 
-            background-color: var(--bg-body); color: var(--text-main); 
-            margin: 0; display: flex; height: 100vh; overflow: hidden; transition: background 0.3s;
-        }
+    body { 
+        font-family: 'Pyidaungsu', 'Sagar', sans-serif; 
+        background-color: var(--bg-body); color: var(--text-main); 
+        margin: 0; display: flex; height: 100vh; overflow: hidden; transition: background 0.3s;
+    }
 
-        /* Top Navigation Bar */
-  .top-bar {
+/* ==========================================
+   ၁။ APP BAR & BUTTONS (အပေါ်ဘားနှင့် ခလုတ်များ ဒီဇိုင်း)
+   ========================================== */
+.top-bar {
     position: fixed; top: 0; left: 0; right: 0;
-    min-height: 55px; height: auto; /* ခလုတ်တွေ အောက်ဆင်းရင် လိုက်ကျယ်ဖို့ */
-    background: var(--topbar-bg);
+    min-height: 55px; height: auto; 
+    background: var(--topbar-bg); /* မူလ Theme အရောင်စနစ်ကို ဆက်ထိန်းထားသည် */
     padding: 8px 12px; z-index: 1000;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    overflow-x: auto; /* ဖုန်းမျက်နှာပြင်တွင် ဘေးတိုက် ပွတ်(Scroll) ကြည့်နိုင်သည့်စနစ် */
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+}
+/* Scrollbar ကို မျက်စိမရှုပ်အောင် ဖျောက်ထားနည်း */
+.top-bar::-webkit-scrollbar {
+    display: none;
 }
 
 .nav-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap; /* နေရာမဆန့်ရင် အလိုအလျောက် အောက်ဆင်းမယ် */
-    gap: 8px;
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;
+    width: 100%;
 }
 
 .btn-group {
-    display: flex;
-    gap: 5px;
-    align-items: center;
-    flex-wrap: wrap; /* ဖုန်းအသေးမှာ ခလုတ်တွေ အတန်းလိုက် ဆင်းပေးဖို့ */
-    justify-content: flex-end;
+    display: flex; gap: 6px; align-items: center; flex-wrap: nowrap; justify-content: flex-end;
 }
 
-.theme-dots {
-    display: flex;
-    gap: 6px;
-    margin: 0 5px;
-}
+.theme-dots { display: flex; gap: 6px; margin: 0 5px; }
+.dot { width: 20px; height: 20px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.4); cursor: pointer; }
 
-.dot {
-    width: 20px; height: 20px;
-    border-radius: 50%;
-    border: 1px solid rgba(255,255,255,0.4);
-    cursor: pointer;
-}
-
+/* 💎 အဆင့်မြှင့်တင်ထားသော ပရီမီယံ မှန်ကြည်ရောင် ခလုတ်ဒီဇိုင်း */
 .btn-icon {
-    background: rgba(255,255,255,0.15);
-    border: none; color: white;
-    padding: 5px 8px; border-radius: 6px;
-    font-size: 13px; cursor: pointer;
+    background: rgba(255, 255, 255, 0.18); /* ✨ နူးညံ့သော မှန်ကြည်ရောင် နောက်ခံ */
+    border: 1px solid rgba(255, 255, 255, 0.25); /* အနားသတ်လိုင်းကျော့ကျော့လေး */
+    color: white;
+    padding: 6px 10px; 
+    border-radius: 6px; 
+    font-size: 13px; 
+    font-weight: bold;
+    cursor: pointer; 
     white-space: nowrap;
+    flex-shrink: 0; /* ဖုန်းသေးလည်း ခလုတ်ထဲက စာသားတွေ ကျုံ့ပြီး ပုံပျက်မသွားစေရန် */
+    font-family: inherit;
+    transition: all 0.2s ease;
+}
+/* ခလုတ်ကို နှိပ်လိုက်ချိန် သို့မဟုတ် Touch ထိထားချိန်တွင် လင်းသွားမည့်စနစ် */
+.btn-icon:hover, .btn-icon:active {
+    background: rgba(255, 255, 255, 0.35); 
+    border-color: rgba(255, 255, 255, 0.5);
 }
 
-.btn-back {
-    background: rgba(255, 255, 255, 0.25);
+.btn-back { background: rgba(255, 255, 255, 0.25); font-weight: bold; }
+
+/* ==========================================
+   ၂။ SIDEBAR & MODAL (ဘေးဘားနှင့် မာတိကာ Box)
+   ========================================== */
+/* Bookmark Sidebar သီးသန့် */
+#sidebar { 
+    width: var(--sidebar-width); background: #2c3e50; color: white; 
+    position: fixed; left: -280px; top: 0; bottom: 0;
+    transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1); z-index: 2000;
+    overflow-y: auto; padding: 20px; box-sizing: border-box;
+}
+#sidebar.active { left: 0; box-shadow: 5px 0 15px rgba(0,0,0,0.3); }
+#sidebar h3 { color: #f1c40f; font-size: 18px; margin: 25px 0 10px; border-bottom: 1px solid #444; padding-bottom: 5px; }
+#sidebar ul { list-style: none; padding: 0; margin: 0; }
+#sidebar li { 
+    padding: 14px; cursor: pointer; border-bottom: 1px solid #34495e; 
+    display: flex; justify-content: space-between; align-items: center; font-size: 15px;
+}
+#sidebar li:active { background: #3e5871; }
+.del-mark { color: #ff7675; padding: 5px; font-weight: bold; }
+
+/* Pop-up Modal (မာတိကာ အတွက်) */
+.modal {
+    display: none; position: fixed; z-index: 3000; left: 0; top: 0; width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.6); justify-content: center; align-items: center;
+    backdrop-filter: blur(2px);
+}
+.modal.active { display: flex; }
+.modal-content {
+    background-color: var(--bg-card); color: var(--text-main);
+    width: 90%; max-width: 450px; max-height: 80vh; border-radius: 12px;
+    display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+.modal-header {
+    padding: 15px 20px; background: var(--topbar-bg); color: white;
+    display: flex; justify-content: space-between; align-items: center; font-size: 18px; font-weight: bold;
+}
+.close-btn { background: none; border: none; color: white; font-size: 22px; cursor: pointer; padding: 0; }
+.modal-body { padding: 15px 20px; overflow-y: auto; }
+.modal-body h3 { color: #d35400; font-size: 18px; margin: 15px 0 10px; border-bottom: 1px solid var(--hr-color); padding-bottom: 5px; }
+body.dark-mode .modal-body h3 { color: #f39c12; }
+.modal-body ul { list-style: none; padding: 0; margin: 0; }
+.modal-body li { padding: 12px 0; border-bottom: 1px dashed var(--hr-color); cursor: pointer; font-size: 16px; }
+.modal-body li:hover { opacity: 0.7; }
+.modal-body li:last-child { border-bottom: none; }
+
+/* ==========================================
+   ၃။ MAIN READER & CONTENT (စာဖတ်သည့်နေရာနှင့် Table များ)
+   ========================================== */
+#main-content { 
+    flex-grow: 1; overflow-y: auto; width: 100%; height: 100dvh; 
+    padding-top: 60px; 
+    scroll-padding-top: 70px; 
+    padding-bottom: 20px; box-sizing: border-box;
+    scroll-behavior: smooth; -webkit-overflow-scrolling: touch;
+}
+#reader-card { 
+    max-width: 800px; margin: 20px auto; background: var(--bg-card); 
+    padding: 25px; padding-bottom: 100px; border-radius: 12px; 
+    min-height: 80vh; box-shadow: 0 2px 10px rgba(0,0,0,0.05); box-sizing: border-box;
+}
+#content { font-size: 20px; line-height: 1.8; text-align: justify; word-wrap: break-word; }
+
+#content a { text-decoration: none !important; color: inherit !important; border-bottom: 1px dashed #999; }
+table, .mw-editsection, .navbox, .infobox, .ws-header, .headerContainer { display: none !important; }
+hr { border: 0; border-top: 1px solid var(--hr-color); margin: 20px 0; }
+
+#overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1500; }
+#overlay.active { display: block; }
+
+@media (max-width: 600px) {
+    #reader-card { margin: 10px; padding: 20px; border-radius: 0; }
+    #content { font-size: 19px; }
+    #main-content { padding-top: 65px !important; }
+}
+
+/* Wiki စာရင်းဇယားများကို ဖုန်းမျက်နှာပြင်နှင့် အဆင်ပြေအောင် ညှိပေးသည့်စနစ် */
+#content table {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    border-collapse: collapse;
+    margin: 15px 0;
+    overflow-x: auto !important; 
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    -webkit-column-break-inside: avoid !important;
+    -webkit-overflow-scrolling: touch;
+}
+#content th, #content td {
+    border: 1px solid #ddd !important;
+    padding: 8px !important;
+    text-align: left;
+    min-width: 80px;
+    font-size: 18px !important; 
+    line-height: 1.6 !important;
+}
+#content th {
+    background-color: #f1f2f6;
     font-weight: bold;
 }
 
-
-        /* Sidebar (Responsive) */
-        #sidebar { 
-            width: var(--sidebar-width); background: #2c3e50; color: white; 
-            position: fixed; left: -280px; top: 0; bottom: 0;
-            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1); z-index: 2000;
-            overflow-y: auto; padding: 20px; box-sizing: border-box;
-        }
-        #sidebar.active { left: 0; box-shadow: 5px 0 15px rgba(0,0,0,0.3); }
-        #sidebar h3 { color: #f1c40f; font-size: 18px; margin: 25px 0 10px; border-bottom: 1px solid #444; padding-bottom: 5px; }
-        #sidebar ul { list-style: none; padding: 0; margin: 0; }
-        #sidebar li { 
-            padding: 14px; cursor: pointer; border-bottom: 1px solid #34495e; 
-            display: flex; justify-content: space-between; align-items: center; font-size: 15px;
-        }
-        #sidebar li:active { background: #3e5871; }
-        .del-mark { color: #ff7675; padding: 5px; font-weight: bold; }
-
-        /* Main Reader Container */
-        #main-content { 
-            flex-grow: 1; overflow-y: auto; width: 100%; height: 100%;
-            padding-top: 110px; scroll-behavior: smooth;
-        }
-        #reader-card { 
-            max-width: 800px; margin: 20px auto; background: var(--bg-card); 
-            padding: 25px; border-radius: 12px; min-height: 80vh;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05); box-sizing: border-box;
-        }
-
-        /* Clean Content Styles */
-        #content { font-size: 20px; line-height: 1.8; text-align: justify; word-wrap: break-word; }
-        #content a { text-decoration: none !important; color: inherit !important; border-bottom: 1px dashed #999; }
-        table, .mw-editsection, .navbox, .infobox, .ws-header, .headerContainer { display: none !important; }
-        hr { border: 0; border-top: 1px solid var(--hr-color); margin: 20px 0; }
-
-        /* Theme Dots */
-        .dot { width: 24px; height: 24px; border-radius: 50%; border: 2px solid white; cursor: pointer; }
-        
-        #overlay { 
-            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1500; 
-        }
-        #overlay.active { display: block; }
-
-        @media (max-width: 600px) {
-            #reader-card { margin: 10px; padding: 20px; border-radius: 0; }
-            #content { font-size: 19px; }
-        }
-        /* ပရင့်ထုတ်ရန်အတွက် သီးသန့် CSS */
-@media print {
-    /* မလိုအပ်သော ခလုတ်များနှင့် မာတိကာကို ဖျောက်ထားမည် */
-    .top-bar, #sidebar, #overlay { display: none !important; }
-    
-    /* စာရွက်ပေါ်တွင် အဖြူအမည်းနှင့် မျက်နှာပြင်အပြည့် ဖြစ်စေရန် */
-    body, #main-content { 
-        background: white !important; 
-        color: black !important; 
-        height: auto !important; 
-        overflow: visible !important; 
-        padding: 0 !important; 
-        margin: 0 !important;
-    }
-    #reader-card { 
-        box-shadow: none !important; 
-        margin: 0 !important; 
-        padding: 0 !important; 
-    }
-    #content { font-size: 16pt !important; } /* စာရွက်ပေါ်တွင် ဖတ်ရအဆင်ပြေမည့် အရွယ်အစား */
+/* 📖 လမ်းညွှန်စာမျက်နှာအတွက် သီးသန့် Style များ */
+.guide-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 15px;
+    padding: 0 5px;
 }
+.guide-card {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: var(--bg-card); 
+    border: 1px solid var(--hr-color);
+    padding: 12px 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    text-align: left;
+}
+.guide-icon { font-size: 24px; min-width: 35px; text-align: center; }
+.guide-info h4 { margin: 0 0 4px 0; color: var(--text-main); font-size: 18px; }
+.guide-info p { margin: 0; font-size: 18px; opacity: 0.8; line-height: 1.5; }
+
+@media (max-width: 400px) {
+    .guide-card { padding: 10px; gap: 10px; }
+    .guide-info h4 { font-size: 16px; }
+    .guide-info p { font-size: 14px; }
+}
+
+.tab-btn {
+    font-size: 17px !important;
+    padding: 12px 2px !important;
+    font-weight: bold !important;
+    transition: all 0.2s ease;
+}
+.tab-btn.active { box-shadow: 0 2px 6px rgba(0,0,0,0.25) !important; }
+
+/* လင့်ခ်ခုန်သွားသည့်အခါ ခေါင်းစဉ်များ Header အောက် မရောက်စေရန် */
+h1, h2, h3, h4, h5, h6, [id] { scroll-margin-top: 120px; }
+#main-content > *:first-child { margin-top: 0 !important; }
+
+/* ==========================================
+   ၄။ PRINT MEDIA STYLES (ပရင့်ထုတ်သည့်အခါ သုံးမည့်စနစ်)
+   ========================================== */
+@media print {
+    html, body, #main-content, #reader-card, #content {
+        display: block !important;
+        height: auto !important;
+        overflow: visible !important;
+        float: none !important;
+        position: relative !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        box-shadow: none !important;
+        max-height: none !important;
+    }
+
+    /* ပရင့်ထုတ်လျှင် မလိုလားအပ်သော ခလုတ်တန်း၊ ပေါ့အပ်၊ အော်ဒီယိုများ အားလုံးကို ဖျောက်ပေးမည့်စနစ် */
+    .top-bar, #sidebar, #overlay, .modal, .hide-on-print, .toc, #toc, .mw-toc, .toolbar, .top-header, button, input, audio {
+        display: none !important;
+    }
+
+    p, span, a, div, li, td, th, dd, dt, blockquote {
+        font-size: 22px !important;
+        line-height: 1.8 !important;
+        color: #000000 !important;
+        word-wrap: break-word !important;
+    }
+    
+    p { text-indent: 40px !important; }
+    table p, th p, td p, th, td, .center p { text-indent: 0 !important; }
+    a { text-decoration: none !important; color: black !important; }
+    
+    h1 { page-break-before: always !important; break-before: page !important; }
+    h1, h2, h3, h4, h5, h6 {
+        page-break-after: avoid !important; break-after: avoid !important;
+        page-break-inside: avoid !important; break-inside: avoid !important;
+    }
+    p, li, div, dd, dt, blockquote { page-break-inside: auto !important; break-inside: auto !important; }
+    img, table { page-break-inside: avoid !important; break-inside: avoid !important; }
+
+    @page {
+        margin: 20mm 15mm 20mm 25mm;
+        margin-bottom: 2cm !important; 
+        @bottom-right {
+            content: "[ " counter(page) " / " counter(pages) " ]" !important; 
+            font-weight: bold !important; font-size: 14pt !important; color: #000 !important;
+        }
+    }
+}
+@media print {
+    /* ၁။ မလိုအပ်သော Header ပုံကြီး၊ မီနူးတန်း၊ အော်ဒီယိုစက်နှင့် လင့်ခ်များကို ဖျောက်ခြင်း */
+    img, header, .header, nav, .menu, audio, iframe, .hide-on-print, .sharedaddy {
+        display: none !important;
+    }
+
+    /* ၂။ စာမျက်နှာနောက်ခံကို အဖြူသန့်သန့်ပြောင်းပြီး စာသားကို နေရာအပြည့်ယူစေခြင်း */
+    body, main, .content, .entry-content {
+        background: white !important;
+        color: black !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    /* ၃။ တရားစာသား ခေါင်းစဉ်နှင့် စာပိုဒ်များကို စာရွက်ပေါ်တွင် ဖတ်ရလွယ်အောင် ညှိခြင်း */
+    h1, h2, h3 {
+        color: #000000 !important;
+        text-align: center !important; /* ခေါင်းစဉ်များကို အလယ်တည့်တည့်ပို့မည် */
+        page-break-after: avoid !important;
+    }
+
+    p {
+        font-size: 17pt !important; /* စာရွက်ပေါ်တွင် ဖတ်ရအဆင်ပြေမည့် ဆိုဒ် */
+        line-height: 1.8 !important;
+        color: #000000 !important;
+        text-align: justify !important; /* စာကြောင်း ဘယ်/ညာ ညီစေရန် */
+        text-indent: 40px !important; /* စာပိုဒ်အစကို Tab ခုန်ပေးရန် */
+    }
+}
+
 </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body class="sepia-mode">
 
 <div id="overlay" onclick="closeSidebar()"></div>
 
 <div class="top-bar">
-    <div class="nav-row">
-        <button class="btn-icon btn-back" onclick="goBack()">
-            ⬅ ပြန်ထွက်
-        </button>
-
         <div class="btn-group">
-            <button class="btn-icon" onclick="openSidebar()">☰ မာတိကာ</button>
+            <button class="btn-icon" onclick="openPopup()">☰ မာတိကာ</button>
+            <button class="btn-icon" onclick="openSidebar()">🔖 မှတ်စုများ</button> 
             <button class="btn-icon" onclick="saveThisPage()">⭐ သိမ်းမယ်</button>
             <button class="btn-icon" onclick="exportPDF()">🖨️ ပရင့်</button>
+                  <!-- Top Bar Search Box -->
+    <div style="position: relative; display: flex; gap: 5px; margin-right: 5px;">
+    <input type="text" id="globalSearch" oninput="liveSearchCombined()" placeholder=" ရှာရန်..." autocomplete="off" style="padding: 4px 8px; border-radius: 6px; border: none; font-family: inherit; outline: none; width: 130px; font-size: 14px;">
+    <button class="btn-icon" onclick="searchArticle()" style="background: #e67e22;">🔍</button>
+
+    <div id="suggestion-box" style="position: fixed; width: 240px; background: var(--bg-card); color: var(--text-main); border: 1px solid var(--hr-color); border-radius: 6px; max-height: 270px; overflow-y: auto; box-shadow: 0 4px 15px rgba(0,0,0,0.3); display: none; z-index: 99999 !important; font-size: 14px;"></div>
+</div>
 
             <div class="theme-dots">
                 <div class="dot" style="background:#fff;" onclick="setTheme('light')"></div>
                 <div class="dot" style="background:#fdf6e3;" onclick="setTheme('sepia')"></div>
                 <div class="dot" style="background:#1e1e1e;" onclick="setTheme('dark')"></div>
             </div>
-
             <button class="btn-icon" onclick="adjustFont(2)">A+</button>
             <button class="btn-icon" onclick="adjustFont(-2)">A-</button>
         </div>
@@ -177,210 +337,744 @@
 </div>
 
 <nav id="sidebar">
-    <h2 style="font-size: 20px; margin-top: 0;">Reader Menu</h2>
-    <h3>📖 မာတိကာ</h3>
-    <ul id="menu-list"></ul>
+    <h2 style="font-size: 20px; margin-top: 0;">မှတ်စုစာအုပ်</h2>
     <h3>⭐ မှတ်သားထားသည်များ</h3>
     <ul id="bookmark-list"></ul>
 </nav>
+
+<div id="toc-popup" class="modal" onclick="if(event.target == this) closePopup()">
+    <div class="modal-content">
+        <div class="modal-header">
+            <span>📚 မာတိကာ</span>
+            <button class="close-btn" onclick="closePopup()">✕</button>
+        </div>
+        <div class="modal-body">
+            <input type="text" id="menuSearch" onkeyup="filterMenu()" placeholder="မာတိကာတွင် ရှာရန်..." style="width: 100%; padding: 10px; margin-bottom: 15px; border-radius: 6px; border: 1px solid #ccc; font-family: inherit; box-sizing: border-box; font-size: 18px;">
+            
+            <div style="display: flex; gap: 6px; margin-bottom: 18px; background: #e0e0e0; padding: 5px; border-radius: 8px;">
+    
+    <button class="tab-btn active" onclick="switchTab(event, 'dhamma-sect')" style="flex: 1; padding: 12px 2px; font-size: 17px; font-family:inherit; cursor: pointer; border-radius: 6px; border: none; background: #8B4513; color: white; font-weight: bold; box-shadow: 0 2px 6px rgba(0,0,0,0.25);">📖 ဓမ္မ</button>
+    
+    <button class="tab-btn" onclick="switchTab(event, 'vinaya-sect')" style="flex: 1; padding: 12px 2px; font-size: 17px; font-family:inherit; cursor: pointer; border-radius: 6px; border: none; background: #f5f5f5; color: #111111; font-weight: bold;">📜 ဝိနည်း</button>
+    
+    <button class="tab-btn" onclick="switchTab(event, 'mogok-sect')" style="flex: 1; padding: 12px 2px; font-size: 17px; font-family:inherit; cursor: pointer; border-radius: 6px; border: none; background: #f5f5f5; color: #111111; font-weight: bold;">🙏 မိုးကုတ်</button>
+    
+    <button class="tab-btn" onclick="switchTab(event, 'wiki-sect')" style="flex: 1; padding: 12px 2px; font-size: 17px; font-family:inherit; cursor: pointer; border-radius: 6px; border: none; background: #f5f5f5; color: #111111; font-weight: bold;">🌍 ဗဟုသုတ</button>
+
+</div>
+
+            <div id="dhamma-sect" class="tab-section" style="max-height: 400px; overflow-y: auto;">
+                <ul id="menu-list"></ul>
+            </div>
+            
+            <div id="vinaya-sect" class="tab-section" style="display: none; max-height: 400px; overflow-y: auto;">
+                <ul id="vinaya-menu-list"></ul>
+            </div>
+            
+            <div id="mogok-sect" class="tab-section" style="display: none; max-height: 400px; overflow-y: auto;">
+    <ul id="mogok-menu-list">
+        
+        <li onclick="closePopup(); loadMogokSite();" style="padding: 12px; border-bottom: 1px solid #eee; cursor: pointer; list-style-type: none; font-size: 18px; color: #8B4513; font-weight: bold;">
+            🙏 မိုးကုတ် တရားစာအုပ်နှင့် အသံဖိုင်များ
+        </li>
+        
+    </ul>
+</div>
+            
+            <div id="wiki-sect" class="tab-section" style="display: none; max-height: 400px; overflow-y: auto;">
+                <ul id="wiki-menu-list"></ul>
+            </div>
+        </div>
+    </div>
+</div>
 
 <main id="main-content">
     <article id="reader-card">
         <h2 id="title-display" style="margin-top: 0;">ဓမ္မအသိတိုးပွားပါစေ🙏🙏🙏</h2>
         <hr>
-        <div id="content">မာတိကာမှ ဖတ်လိုသော အကြောင်းအရာကို ရွေးချယ်ပါ။</div>
+        
+        <div id="content">
+            <p style="opacity: 0.7; font-size: 14px; text-align: center; margin-bottom: 20px;">
+                အောက်ပါလမ်းညွှန်ချက်များကို ဖတ်ရှု၍ အက်ပ်ကို လွယ်ကူစွာ အသုံးပြုနိုင်ပါသည်၊၊
+            </p>
+
+            <div class="guide-container">
+                
+                <div class="guide-card">
+                    <div class="guide-icon">☰</div>
+                    <div class="guide-info">
+                        <h4>မာတိကာ </h4>
+                        <p>ကျမ်းစာများ သို့မဟုတ် ဆောင်းပါးများ၏ မာတိကာအညွှန်းစာရင်းကို ဖွင့်လှစ်ဖတ်ရှုရန် ဖြစ်ပါသည်။</p>
+                    </div>
+                </div>
+
+                <div class="guide-card">
+                    <div class="guide-icon" style="color: #e74c3c;">🔖</div>
+                    <div class="guide-info">
+                        <h4>မှတ်စုများ </h4>
+                        <p>မိမိဖတ်ရှုနေစဉ်အတွင်း သီးသန့်မှတ်သားသိမ်းဆည်းထားခဲ့သော စာသားများကို ပြန်လည်ကြည့်ရှုရန် ဖြစ်ပါသည်။ သိမ်းထားသောစာများသည် အင်တာနက်ဖွင့်ရန်မလိုပဲ ဖတ်ရှုနိုင်ပါသည်။</p>
+                    </div>
+                </div>
+
+                <div class="guide-card">
+                    <div class="guide-icon" style="color: #f1c40f;">⭐</div>
+                    <div class="guide-info">
+                        <h4>သိမ်းမယ် </h4>
+                        <p>အခုလက်ရှိ ဖတ်ရှုနေသည့် စာမျက်နှာ သို့မဟုတ် အကြောင်းအရာကို စာမှတ် (Bookmark) အဖြစ် သိမ်းရန် ဖြစ်ပါသည်။</p>
+                    </div>
+                </div>
+
+                <div class="guide-card">
+                    <div class="guide-icon" style="color: #7f8c8d;">🖨️</div>
+                    <div class="guide-info">
+                        <h4>ပရင့်</h4>
+                        <p>ဖတ်ရှုနေသည့် တရားစာများကို စာရွက်ဖြင့် ပရင့်ထုတ်ရန် သို့မဟုတ် ဖုန်းထဲသို့ PDF ဖိုင်အဖြစ် သိမ်းဆည်းရန် ဖြစ်ပါသည်။</p>
+                    </div>
+                </div>
+
+                <div class="guide-card">
+                    <div class="guide-icon" style="color: #3498db;">🔍</div>
+                    <div class="guide-info">
+                        <h4> ရှာဖွေရန်</h4>
+                        <p>မိမိသိလိုသည့် စာသားကို ရိုက်ထည့်ပါက  ရှာဖွေပေးမည် ဖြစ်ပါသည်။</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div style="height: 150px; width: 100%;"></div> 
     </article>
 </main>
 
 <script>
-    // ခေါင်းစဉ်များ ထပ်တိုးရန် ဤနေရာတွင် ပြင်ပါ
     const myLinks = [
-        "ပုံတော်စုံ ငါးရာငါးဆယ် ဇာတ်ဝတ္ထု","ဓမ္မပဒဝတ္ထုတော်ကြီး",
-        "သရုပ်ပြဓမ္မပဒကျမ်း","ပါရာဇိကကဏ္ဍ-အဋ္ဌကထာ-ပတွဲ နိဿယ-၁","ပါရာဇိကကဏ္ဍ-အဋ္ဌကထာ-ပတွဲ နိဿယ-၂","ပါရာဇိကကဏ္ဍ-အဋ္ဌကထာ-ပတွဲ နိဿယ-၃","ပါရာဇိကကဏ္ဍ-အဋ္ဌကထာ-ပတွဲ နိဿယ-၄","ပါရာဇိကကဏ္ဍ-အဋ္ဌကထာ-ဒုတွဲ နိဿယ-၁","ဗုဒ္ဓဘာသာကောင်းတစ်ယောက်","ဗုဒ္ဓဘာသာကောင်းတစ်ယောက်-ဒု",
-        "ကိုယ်ကျင့်အဘိဓမ္မာ"
-        ];
+        "ပုံတော်စုံ ငါးရာငါးဆယ် ဇာတ်ဝတ္ထု","ပဏ္ဍိတဝေဒနိယဒီပနီကျမ်း","ပဏ္ဍိတဝေဒနိယဒီပနီကျမ်း-ဒု", "ဓမ္မပဒဝတ္ထုတော်ကြီး", "ဓမ္မပဒဂါထာနိဿယ",
+        "စာရေးသူ:ညောင်လေးပင်တောရဆရာတော်",
+        "သရုပ်ပြဓမ္မပဒကျမ်း/သရုပ်ပြဓမ္မပဒကျမ်း နိဒါန်း", "သရုပ်ပြဓမ္မပဒကျမ်း","မဟာဗုဒ္ဓဝင်",
+        "ဓမ္မစကြာသုတ်နိဿယ","မဟာသတိပဋ္ဌာနသုတ် နိဿယ","သတိပဋ္ဌာန်အရသာ","ဘာဝနာအရသာ","မဟာဓမ္မစကြာအရသာ",
+        "စာရေးသူ:အရှင်ဇနကာဘိဝံသ", "ဗုဒ္ဓဘာသာကောင်းတစ်ယောက်", "ဗုဒ္ဓဘာသာကောင်းတစ်ယောက်-ဒု","ဝိပဿနာ ဉာဏ်စဉ်ကျမ်းကြီး","ဝိပဿနာ ဉာဏ်စဉ်ကျမ်းကြီး-ဒု","နိဗ္ဗာန်ချမ်းသာတရားတော်များ","ပဏ္ဍိတဝေဒနိယဒီပနီကျမ်း","ပဏ္ဍိတဝေဒနိယဒီပနီကျမ်း-ဒု","ကမ္မဋ္ဌာန်းကျမ်းကြီး",
+        "ဗုဒ္ဓဘာသာလက်စွဲကျမ်း ပထမတွဲ", "ဗုဒ္ဓဘာသာလက်စွဲကျမ်း ပထမတွဲ-ဒု",
+        "ဗုဒ္ဓဘာသာလက်စွဲကျမ်း ဒုတိယတွဲ", "ဗုဒ္ဓဘာသာလက်စွဲကျမ်း ဒုတိယတွဲ-ဒု","ဗုဒ္ဓဘာသာအမြင် အမေးအဖြေများ",
+        "ဓမ္မအမေးအဖြေ",
+        "ဘာသာရေးပြဿနာပေါင်းချုပ်",
+        "ဘာသာရေးပြဿနာပေါင်းချုပ်-ဒု",
+        "ဗုဒ္ဓဓမ္မဆွေးနွေးချက်များ",
+        "ဓမ္မအမေးအဖြေများ ပေါင်းချုပ် (အမှတ် ၁)",
+        "ဓမ္မအမေးအဖြေများ ပေါင်းချုပ် (အမှတ် ၂)",
+        "ဓမ္မအမေးအဖြေများ ပေါင်းချုပ် (အမှတ် ၃)",
+        "ဓမ္မအမေးအဖြေများ ပေါင်းချုပ် (အမှတ် ၄)",
+        "ဓမ္မအမေးအဖြေများ ပေါင်းချုပ် (အမှတ် ၅)",
+        "ဓမ္မအမေးအဖြေများ ပေါင်းချုပ် (အမှတ် ၆)",
+        "ပါဠိဖတ်နည်း", "ပရိတ်ကြီး နိဿယသစ်", "ပရိတ်ကြီးနိဿယသစ်",
+        "ပရိတ်ကြီးနိဿယသစ်-ဒု", "ပစ္စယုဒ္ဒေသ -တိကပဋ္ဌာန်း", "ပဉှာဝါရ",
+        "သလ္လေခသုတ် တရားတော်ကြီး", "သလ္လေခသုတ် တရားတော်ကြီး-ဒု","သုံးပုံတံတားကျမ်း","သုံးပုံလှေခါးကျမ်း","ပိဋကတ်တော် မြန်မာပြန်","ပိဋကတ်သုံးပုံပါဠိတော်ကျမ်းများ မိတ်ဆက်","ပိဋကတ်ဝတ္ထုလမ်းညွှန်","ပိဋကတ်ဝတ္ထုလမ်းညွှန်-ဒု","ပိဋကတ်ဝတ္ထုလမ်းညွှန်-တ","သုတေသနသရုပ်ပြအဘိဓာန်","သုတေသနသရုပ်ပြအဘိဓာန်-ဒု","ပိဋကလမ်းညွှန်-ကခဂဃင","ပိဋကလမ်းညွှန်-စဆဇဈည","ပိဋကလမ်းညွှန်-ဋဌဍဎဏတထဒဓန","ပိဋကလမ်းညွှန်-ပဖဗဘမ","ပိဋကလမ်းညွှန်-ယရလဝ","ပိဋကလမ်းညွှန်-သဟဠ","ပိဋကလမ်းညွှန်-အ","ပိဋကတ်သုံးပုံ သရုပ်စုံအဘိဓာန်-ကခဂဃင","ပိဋကတ်သုံးပုံ သရုပ်စုံအဘိဓာန်-စဆဇဈည","ပိဋကတ်သုံးပုံ သရုပ်စုံအဘိဓာန်-တထဒဓန","ပိဋကတ်သုံးပုံ သရုပ်စုံအဘိဓာန်-ပဖဗဘမ","ပိဋကတ်သုံးပုံ သရုပ်စုံအဘိဓာန်-ယရလဝသ","ပိဋကတ်သုံးပုံ သရုပ်စုံအဘိဓာန်-ဟဠအ"
+    ];
+
+    // ⭐ ၂။ အသစ်တိုးလိုက်သော ဝိနည်းနိဿယ လင့်ခ်များ စာရင်း
+    const vinayaLinks = [
+        "ပါရာဇိကပါဠိ နိဿယ-၁","ပါရာဇိကပါဠိ နိဿယ-၂","ပါရာဇိကပါဠိ နိဿယ-၃","ပါရာဇိကပါဠိ နိဿယ-၄",
+        "ပါရာဇိကကဏ္ဍ-အဋ္ဌကထာ-ပတွဲ နိဿယ-၁","ပါရာဇိကကဏ္ဍ-အဋ္ဌကထာ-ပတွဲ နိဿယ-၂","ပါရာဇိကကဏ္ဍ-အဋ္ဌကထာ-ပတွဲ နိဿယ-၃","ပါရာဇိကကဏ္ဍ-အဋ္ဌကထာ-ပတွဲ နိဿယ-၄",
+"ပါရာဇိကကဏ္ဍ-အဋ္ဌကထာ-ဒုတွဲ နိဿယ-၁","ပါရာဇိကကဏ္ဍ-အဋ္ဌကထာ-ဒုတွဲ နိဿယ-၂","ပါရာဇိကကဏ္ဍ-အဋ္ဌကထာ-ဒုတွဲ နိဿယ-၃","ပါရာဇိကကဏ္ဍ-အဋ္ဌကထာ-ဒုတွဲ နိဿယ-၄",
+        "ပါစိတ္တိယပါဠိ နိဿယ-၁","ပါစိတ္တိယပါဠိ နိဿယ-၂","ပါစိတ္တိယပါဠိ နိဿယ-၃","ပါစိတ္တိယပါဠိ နိဿယ-၄","ပါစိတ္တိယပါဠိ နိဿယ-၅","ပါစိတ္တိယ-အဋ္ဌကထာ နိဿယ-၁","ပါစိတ္တိယ-အဋ္ဌကထာ နိဿယ-၂","ပါစိတ္တိယ-အဋ္ဌကထာ နိဿယ-၃",
+        "မဟာဝဂ္ဂပါဠိ-ဝိနည်း နိဿယ-၁","မဟာဝဂ္ဂပါဠိ-ဝိနည်း နိဿယ-၂","မဟာဝဂ္ဂပါဠိ-ဝိနည်း နိဿယ-၃","မဟာဝဂ္ဂပါဠိ-ဝိနည်း နိဿယ-၄","မဟာဝဂ္ဂပါဠိ-ဝိနည်း နိဿယ-၅",
+        "မဟာဝဂ္ဂပါဠိ-ဝိနည်း နိဿယ-၆",
+        "မဟာဝဂ္ဂ-အဋ္ဌကထာ နိဿယ-၃","မဟာဝဂ္ဂ-အဋ္ဌကထာ နိဿယ-၄","မဟာဝဂ္ဂ-အဋ္ဌကထာ နိဿယ-၅",
+        "စူဠဝဂ္ဂပါဠိ နိဿယ-၁", "စူဠဝဂ္ဂပါဠိ နိဿယ-၂", "စူဠဝဂ္ဂပါဠိ နိဿယ-၃", "စူဠဝဂ္ဂပါဠိ နိဿယ-၄","စူဠဝဂ္ဂပါဠိ နိဿယ-၅","စူဠဝဂ္ဂပါဠိ နိဿယ-၆",
+        "စူဠဝဂ္ဂ-အဋ္ဌကထာ နိဿယ-၁","စူဠဝဂ္ဂ-အဋ္ဌကထာ နိဿယ-၂",
+        "ပရိဝါရပါဠိ နိဿယ-၁","ပရိဝါရပါဠိ နိဿယ-၂","ပရိဝါရပါဠိ နိဿယ-၃","ပရိဝါရပါဠိ နိဿယ-၄","ပရိဝါရ-အဋ္ဌကထာ နိဿယ-၂","ပရိဝါရ-အဋ္ဌကထာ နိဿယ-၃","ဝိနည်းပဒေသာသင်တန်း"
+        
+    ];
+
+    const customDisplayNames = {
+        "ပဉှာဝါရ": "ပဋ္ဌာန်း - ပဉှာဝါရ",
+        "ပစ္စယုဒ္ဒေသ -တိကပဋ္ဌာန်း": "ပစ္စယုဒ္ဒေသ (တိကပဋ္ဌာန်း)",
+        "စာရေးသူ:အရှင်ဇနကာဘိဝံသ":"အရှင်ဇနကာဘိဝံသ၏ စာအုပ်များ",
+        "မဟာဗုဒ္ဓဝင်":"မဟာဗုဒ္ဓဝင် - မင်းကွန်းဆရာတော်ဘုရားကြီး",
+        "စာရေးသူ:ညောင်လေးပင်တောရဆရာတော်":"ညောင်လေးပင်တောရဆရာတော်၏ စာအုပ်များ"
+    };
+
+    const wikipediaLinks = [
+        "ဂေါတမဗုဒ္ဓ", "ဗုဒ္ဓဘာသာ", "ရွှေတိဂုံစေတီတော်", "အနော်ရထာ","ကံ","ဉာဏ်စဉ်"
+    ];
 
     let currentActiveTitle = "";
     let fontSize = 20;
+    let currentSource = "wikisource"; 
 
+    /* Bookmark Sidebar ဖွင့်/ပိတ် */
     function openSidebar() { document.getElementById('sidebar').classList.add('active'); document.getElementById('overlay').classList.add('active'); }
     function closeSidebar() { document.getElementById('sidebar').classList.remove('active'); document.getElementById('overlay').classList.remove('active'); }
-
+    
+    /* Pop-up Modal ဖွင့်/ပိတ် */
+    function openPopup() { document.getElementById('toc-popup').classList.add('active'); }
+    function closePopup() { document.getElementById('toc-popup').classList.remove('active'); }
+    
     function setTheme(m) {
         document.body.classList.remove('sepia-mode', 'dark-mode');
         if(m !== 'light') document.body.classList.add(m + '-mode');
     }
-
+    
     function adjustFont(s) {
         fontSize += s;
-        if(fontSize < 14) fontSize = 14;
-        if(fontSize > 40) fontSize = 40;
+        fontSize = Math.max(14, Math.min(40, fontSize));
         document.getElementById('content').style.fontSize = fontSize + 'px';
     }
-
-    // --- အရေးကြီးသောအဆင့် (File Not Found မဖြစ်စေရန်) ---
-    // Link များကို ကြားဖြတ်ဖမ်းယူခြင်း
+    
     document.getElementById('content').addEventListener('click', function(e) {
         const link = e.target.closest('a');
         if (link) {
             const href = link.getAttribute('href');
-            // '/wiki/' ပါတဲ့ link တွေဆိုရင် ရှေ့ဆက်မသွားအောင် တားမယ်
             if (href && href.startsWith('/wiki/')) {
                 e.preventDefault(); 
-                // ခေါင်းစဉ်ကိုပဲ ယူပြီး App ထဲမှာ ပြန်ဖွင့်မယ်
                 const newTitle = decodeURIComponent(href.replace('/wiki/', ''));
                 loadWiki(newTitle);
             }
         }
     });
 
-    // App Initialization
+    // စာမျက်နှာ စတင်ချိန်တွင် မာတိကာများ အားလုံး တည်ဆောက်ခြင်း
     window.onload = () => {
+        // (က) ဓမ္မစာပေ မာတိကာ ထည့်သွင်းခြင်း
         const menu = document.getElementById('menu-list');
-        myLinks.forEach(t => {
-            let li = document.createElement('li');
-            li.innerText = t;
-            li.onclick = () => { loadWiki(t); closeSidebar(); };
-            menu.appendChild(li);
-        });
-        renderBookmarks();
+        if (menu) {
+            myLinks.forEach(t => {
+                let li = document.createElement('li');
+                li.innerText = customDisplayNames[t] || t;
+                li.onclick = () => { loadWiki(t); closePopup(); }; 
+                menu.appendChild(li);
+            });
+        }
+
+        // (ခ) ⭐ ဝိနည်းနိဿယ မာတိကာ ထည့်သွင်းခြင်း (တွန့်ကွင်းထဲသို့ စနစ်တကျ ပြန်ရွှေ့ထားပါသည်)
+        const vinayaMenu = document.getElementById('vinaya-menu-list');
+        if (vinayaMenu) {
+            vinayaLinks.forEach(t => {
+                let li = document.createElement('li');
+                li.innerText = customDisplayNames[t] || t;
+                li.onclick = () => { loadWiki(t); closePopup(); };
+                vinayaMenu.appendChild(li);
+            });
+        }
+
+        // (ဂ) ဗဟုသုတ (Wikipedia) မာတိကာ ထည့်သွင်းခြင်း
+        const wikiMenu = document.getElementById('wiki-menu-list');
+        if (wikiMenu) {
+            wikipediaLinks.forEach(t => {
+                let li = document.createElement('li');
+                li.innerText = customDisplayNames[t] || t;
+                li.onclick = () => { loadWiki(t); closePopup(); }; 
+                wikiMenu.appendChild(li);
+            });
+        }
+        
+        // မှတ်စုစာရင်းများ ပြသပေးခြင်း
+        if (typeof renderBookmarks === 'function') {
+            renderBookmarks();
+        }
+    }; // window.onload ကို ဤနေရာမှ မှန်ကန်စွာ ပိတ်ထားပါသည်။
+
+    window.onpopstate = function(event) {
+        if (event.state && event.state.title) {
+            loadWiki(event.state.title, false);
+        }
     };
 
-    // Wiki Loading with Offline Cache Logic
-    async function loadWiki(title) {
-        currentActiveTitle = title;
-        document.getElementById('title-display').innerText = title;
-        const cBox = document.getElementById('content');
-        
-        // ၁။ Offline Storage စစ်ဆေးခြင်း
-        const cached = localStorage.getItem('cache_' + title);
-        if (cached) {
-            cBox.innerHTML = cached;
-            document.getElementById('main-content').scrollTop = 0;
-        } else {
-            cBox.innerHTML = "<p style='text-align:center;'>ခဏစောင့်ပါခင်ဗျာ ...</p>";
-        }
+    async function loadWiki(title, push = true) {
+    currentActiveTitle = title;
+    document.getElementById('title-display').innerText = customDisplayNames[title] || title;
+    
+    const cBox = document.getElementById('content');
+    if (push) {
+        history.pushState({ title: title }, title, "#" + encodeURIComponent(title));
+    }
 
-        const api = `https://my.wikisource.org/w/api.php?action=parse&page=${encodeURIComponent(title)}&format=json&origin=*&prop=text`;
+    // 🌟 အထူးသန့်စင်ရေး Function (ဆရာတော်အမည် Author Box များကိုပါ အသေအချာ ဖျက်ပေးမည်)
+    function cleanBoxes(rootElement) {
+        // ၁။ ပုံမှန် Class များဖြင့် ဖျက်ခြင်း 
+        rootElement.querySelectorAll('.mw-editsection, .ws-header, .headerContainer, .navbox, .infobox, .sisterproject, .sisterprojects, #sisterprojects, .side-box, .metadata, table[class*="sisterproject"], .vcard, .author, #author_header, .ambox').forEach(el => el.remove());
         
-        try {
-            const res = await fetch(api);
-            const data = await res.json();
-            if(data.parse) {
-                const p = new DOMParser();
-                const d = p.parseFromString(data.parse.text['*'], 'text/html');
-                
-                // မလိုတာတွေ ဖယ်ထုတ်မယ်
-                d.querySelectorAll('table, .mw-editsection, .ws-header, .headerContainer').forEach(el => el.remove());
-                
-                const cleanHtml = d.body.innerHTML;
-                cBox.innerHTML = cleanHtml;
-                
-                // အော့ဖ်လိုင်းအတွက် သိမ်းဆည်းခြင်း
-                localStorage.setItem('cache_' + title, cleanHtml); 
-                document.getElementById('main-content').scrollTop = 0;
+        // ၂။ စာသားရှာပြီး ၎င်း၏ ဇယား (Table) ကိုသာ ကွက်၍ဖျက်ခြင်း
+        rootElement.querySelectorAll('table').forEach(table => {
+            let txt = table.textContent.trim();
+            
+            // (က) ညီအစ်မ ပရောဂျက်များ ပါလျှင် ဖျက်မည်
+            if (txt.includes('ညီအစ်မ ပရောဂျက်များ')) {
+                table.remove();
             }
-        } catch(e) {
-            if(!cached) cBox.innerHTML = "<p style='text-align:center;'>အင်တာနက် ဖွင့်ပါခင်ဗျာ။</p>";
-        }
-    }
-  
-    function exportPDF() {
-    // ၁။ ယာယီ Iframe တစ်ခု ဆောက်မယ်
-    const printFrame = document.createElement('iframe');
-    printFrame.style.position = 'fixed';
-    printFrame.style.right = '0';
-    printFrame.style.bottom = '0';
-    printFrame.style.width = '0';
-    printFrame.style.height = '0';
-    printFrame.style.border = '0';
-    document.body.appendChild(printFrame);
-
-    // ၂။ Reader Card ထဲက စာသားတွေကို ကူးယူမယ်
-    const content = document.getElementById('reader-card').innerHTML;
-    const title = document.getElementById('title-display').innerText;
-
-    // ၃။ Iframe ထဲကို စာသားနဲ့ CSS တွေ ထည့်မယ်
-    const frameDoc = printFrame.contentWindow.document;
-    frameDoc.open();
-    frameDoc.write(`
-        <html>
-            <head>
-                <title>${title}</title>
-                <style>
-                    body { font-family: 'Pyidaungsu', 'Sagar', sans-serif; padding: 20px; line-height: 1.6; }
-                    h2 { text-align: center; color: #333; }
-                    hr { border: 0; border-top: 1px solid #eee; }
-                    /* Print ထုတ်တဲ့အခါ ပုံစံကျအောင် */
-                    @page { margin: 20mm; }
-                </style>
-            </head>
-            <body>
-                <h2>${title}</h2>
-                <hr>
-                <div>${content}</div>
-                <script>
-                    // စာမျက်နှာ အားလုံး load ဖြစ်ပြီးတာနဲ့ Print ခေါ်မယ်
-                    window.onload = function() { 
-                        window.print(); 
-                        // ပရင့်ပိတ်သွားရင် Iframe ကို ပြန်ဖျက်မယ်
-                        setTimeout(() => { window.frameElement.remove(); }, 100);
-                    };
-                <\/script>
-            </body>
-        </html>
-    `);
-    frameDoc.close();
-}
-
-    // Bookmarks Logic
-    function saveThisPage() {
-        if(!currentActiveTitle) return;
-        let b = JSON.parse(localStorage.getItem('favs') || "[]");
-        if(!b.includes(currentActiveTitle)) {
-            b.push(currentActiveTitle);
-            localStorage.setItem('favs', JSON.stringify(b));
-            renderBookmarks();
-            alert("မှတ်သားပြီးပါပြီ");
-        }
-    }
-
-    function renderBookmarks() {
-        const bl = document.getElementById('bookmark-list');
-        bl.innerHTML = "";
-        let b = JSON.parse(localStorage.getItem('favs') || "[]");
-        b.forEach(t => {
-            let li = document.createElement('li');
-            li.innerHTML = `<span>${t}</span><span class="del-mark" onclick="removeMark(event, '${t}')">✕</span>`;
-            li.onclick = () => { loadWiki(t); closeSidebar(); };
-            bl.appendChild(li);
+            
+            // (ခ) 💡 ဆရာတော်/စာရေးသူ အမည်ဖြင့် ပေါ်နေသော အကွက်လေးများကို ကွက်၍ဖျက်ခြင်း
+            // ဇယားထဲက စာသားက အရမ်းတိုနေမည် (စာလုံးရေ ၆၀ အောက်) ဖြစ်ပြီး ခေါင်းစဉ်နှင့် တူနေလျှင် ဖျက်မည်
+            let cleanTxt = txt.replace(/[\n\t\r]/g, '').trim();
+            if (cleanTxt.length > 0 && cleanTxt.length < 60) {
+                if (currentActiveTitle.includes(cleanTxt) || cleanTxt.includes('ဆရာတော်') || cleanTxt === 'ညောင်လေးပင်တောရဆရာတော်') {
+                    table.remove();
+                }
+            }
         });
     }
 
-    function removeMark(e, t) {
-        e.stopPropagation();
-        let b = JSON.parse(localStorage.getItem('favs') || "[]");
-        localStorage.setItem('favs', JSON.stringify(b.filter(x => x !== t)));
-        renderBookmarks();
-    }
-    function printNow() {
-    // Median (GoNative) အတွက် Native Print Command
-    if (navigator.userAgent.indexOf('GoNative') > -1) {
-        window.location.href = 'gonative://print/printPage';
+    // ၁။ ဖုန်းထဲမှာ Cache ရှိမရှိ စစ်ဆေးခြင်း
+    const cached = localStorage.getItem('wiki_cache_' + title);
+    if (cached) {
+        cBox.innerHTML = cached;
+        
+        // Cache ဟောင်းထဲမှ ဇယားများကို ရှင်းလင်းမည်
+        cleanBoxes(cBox); 
+        
+        document.getElementById('main-content').scrollTop = 0;
+        attachTocLinks(); 
+        return; 
     } else {
-        window.print();
+        cBox.innerHTML = "<p style='text-align:center;'>ခဏစောင့်ပါ ...</p>";
     }
-}
-    function goBack() {
-    // browser history ထဲမှာ နောက်ပြန်သွားစရာရှိရင် သွားမယ်
-    if (window.history.length > 1) {
-        window.history.back();
-    } else {
-        // နောက်ပြန်သွားစရာ မရှိရင် Home စာမျက်နှာကို ပြန်ပို့မယ်
-        window.location.href = 'index.html'; 
-    }
-}
-</script>
 
+    // ပြင်ပ Domain များမှ ဒေတာလှမ်းယူသည့် Function
+    async function fetchFromDomain(domain) {
+        const api = `https://${domain}/w/api.php?action=parse&page=${encodeURIComponent(title)}&format=json&origin=*&prop=text`;
+        const res = await fetch(api);
+        return await res.json();
+    }
+
+    try {
+        let data;
+        let primaryDomain = "my.wikisource.org";
+        let secondaryDomain = "my.wikipedia.org";
+        
+        if (typeof wikipediaLinks !== 'undefined' && wikipediaLinks.includes(title)) {
+            primaryDomain = "my.wikipedia.org";
+            secondaryDomain = "my.wikisource.org";
+        }
+
+        data = await fetchFromDomain(primaryDomain);
+
+        if (data.error) {
+            data = await fetchFromDomain(secondaryDomain);
+        }
+        
+        // ၂။ Wiki မှာ စာမျက်နှာ ရှိမရှိ စစ်ဆေးခြင်း
+        if(data.parse) {
+            const p = new DOMParser();
+            const d = p.parseFromString(data.parse.text['*'], 'text/html');
+            
+            // အသစ်ဆွဲယူလာသော ဒေတာထဲမှ ဇယားများကို ရှင်းလင်းမည်
+            cleanBoxes(d.body); 
+
+            const cleanHtml = d.body.innerHTML;
+            cBox.innerHTML = cleanHtml;
+            document.getElementById('main-content').scrollTop = 0;
+
+            attachTocLinks(); 
+
+            try {
+                // သန့်စင်ပြီးသား HTML ကိုသာ ဖုန်းထဲ သိမ်းမည်
+                localStorage.setItem('wiki_cache_' + title, cleanHtml); 
+            } catch (e) { console.warn("Storage full"); }
+
+        } else {
+            searchGoogle(title);
+        }
+    } catch(e) {
+        cBox.innerHTML = `<p style='text-align:center;'>အင်တာနက်ချိတ်ဆက်မှု ပြတ်တောက်နေပါသည်။</p>`;
+    }
+
+    // မာတိကာ နှိပ်လျှင် အောက်သို့ ဆင်းပေးမည့် Function
+    function attachTocLinks() {
+        const box = document.getElementById('content');
+        box.querySelectorAll('a').forEach(a => {
+            let href = a.getAttribute('href');
+            if (href && href.startsWith('#')) {
+                a.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    try {
+                        let targetId = href.substring(1);
+                        let targetEl = document.getElementById(targetId) || document.getElementById(decodeURIComponent(targetId));
+                        if (targetEl) {
+                            document.getElementById('main-content').scrollTo({
+                                top: targetEl.offsetTop - 20,
+                                behavior: 'smooth'
+                            });
+                        }
+                    } catch(err) { console.log(err); }
+                });
+            }
+        });
+    }
+}
+
+
+    // ၁။ ရှာဖွေမှုစတင်သည့် ခလုတ် (အလိုအလျောက်စနစ်အတွက် အလွန်ရိုးရှင်းသွားပါပြီ)
+    // ၁။ ရှာဖွေမှုစတင်သည့် လုပ်ဆောင်ချက် (Wiki ထဲ အရင်ရှာခိုင်းမည်)
+function searchArticle() {
+    let query = document.getElementById('globalSearch').value.trim();
+    if(query) {
+        loadWiki(query); 
+        document.getElementById('globalSearch').value = ""; 
+    }
+}
+
+// ၂။ Wiki တွင် ရှာမတွေ့ပါက Google မှ အလိုအလျောက် ဆက်ရှာပေးမည့် လုပ်ဆောင်ချက်
+async function searchGoogle(query) {
+    const cBox = document.getElementById('content');
+    cBox.innerHTML = "<p style='text-align:center;'> ဆက်လက်ရှာဖွေနေပါသည်...</p>";
+    
+    const API_KEY = "YOUR_API_KEY"; // 💡 အစ်ကို့ Google API Key ထည့်ရန်
+    const CX_ID = "YOUR_CX_ID";     // 💡 အစ်ကို့ Custom Search Engine ID ထည့်ရန်
+    
+    let googleApi = `https://www.googleapis.com/customsearch/v1?key=${API_KEY}&cx=${CX_ID}&q=${encodeURIComponent(query)}`;
+    
+    try {
+        let res = await fetch(googleApi);
+        let data = await res.json();
+        
+        if (data.items && data.items.length > 0) {
+            let htmlResults = `<h3>🔍 Google ရှာဖွေမှုရလဒ်များ</h3><hr style='border-top:1px dashed #ccc;'>`;
+            
+            data.items.forEach(item => {
+                htmlResults += `
+                    <div style="margin-bottom: 20px; text-align: left;">
+                        <a href="${item.link}" target="_blank" style="color: #1a0dab !important; font-weight: bold; font-size: 18px; border-bottom: none !important;">
+                            ${item.title}
+                        </a>
+                        <p style="font-size: 15px; color: #4d5156; margin: 5px 0;">${item.snippet}</p>
+                        <span style="font-size: 12px; color: #006621;">${item.displayLink}</span>
+                    </div>
+                    <hr style='border-top:1px dashed #eee;'>
+                `;
+            });
+            
+            cBox.innerHTML = htmlResults;
+            document.getElementById('title-display').innerText = `"${query}" ရှာဖွေမှုရလဒ်`;
+        } else {
+            cBox.innerHTML = `<p style='text-align:center;'> <b>"${query}"</b> ကို ရှာမတွေ့ပါခင်ဗျာ။</p>`;
+        }
+    } catch (e) {
+        cBox.innerHTML = "<p style='text-align:center; color:red;'>အင်တာနက်လိုင်းကြောင့်  ရှာဖွေမှု အဆင်မပြေပါခင်ဗျာ။</p>";
+    }
+}
+
+// ၃။ စာမျက်နှာ စတင်ပွင့်ချိန်တွင် အလုပ်လုပ်မည့် လုပ်ဆောင်ချက်များ (Suggestions နှင့် Enter Key)
+document.addEventListener("click", function(e) {
+    let link = e.target.closest('a[href^="#"]');
+    if (link) {
+        let hash = link.getAttribute("href");
+        let targetId = hash.substring(1);
+        
+        // မြန်မာစာ ID တွေအတွက် Decode လုပ်ခြင်း
+        let targetElement = document.getElementById(targetId) || document.getElementById(decodeURIComponent(targetId));
+
+        if (targetElement) {
+            e.preventDefault(); // မူလ Browser ရဲ့ ခုန်ခြင်းကို တားဆီးသည်
+            
+            // ၁။ Header အမြင့်ကို ချက်ချင်း တိုင်းယူမည်
+            let header = document.querySelector(".top-bar");
+            let headerHeight = header ? header.offsetHeight : 55; // Header မရှိရင် 55px လို့ သတ်မှတ်
+            
+            // ၂။ Scroll လုပ်ရမည့် Container ကို ရှာမည်
+            let container = document.getElementById("main-content");
+            
+            // ၃။ အကွာအဝေးကို တွက်ချက်ခြင်း
+            // targetElement.offsetTop က အပေါ်ကနေ ဘယ်လောက်ဝေးလဲဆိုတာ တွက်ပေးပါတယ်
+            let offsetTop = targetElement.offsetTop - headerHeight - 15; // 15 က နည်းနည်းဟထားပေးတာ
+            
+            // ၄။ အဆင်ပြေပြေ ရွှေ့ပေးခြင်း
+            container.scrollTo({
+                top: offsetTop,
+                behavior: 'smooth'
+            });
+            
+            // History ထဲ ထည့်ခြင်း (Back ခလုတ်အတွက်)
+            history.pushState(null, null, hash);
+        }
+    }
+});
+
+
+// ၄။ Suggestion ကို နှိပ်လိုက်လျှင် လုပ်ဆောင်မည့်အရာ
+function selectSuggestion(title) {
+    document.getElementById('globalSearch').value = title;
+    document.getElementById('suggestion-box').style.display = "none";
+    loadWiki(title); 
+}
+
+// ၅။ Bookmarks (မှတ်သားထားသည်များ) စနစ်
+function renderBookmarks() {
+    const bl = document.getElementById('bookmark-list');
+    if(!bl) return;
+    bl.innerHTML = "";
+    let b = JSON.parse(localStorage.getItem('favs') || "[]");
+    b.forEach(t => {
+        let li = document.createElement('li');
+        li.innerHTML = `<span>${customDisplayNames[t] || t}</span><span class="del-mark" onclick="removeMark(event, '${t}')">✕</span>`;
+        li.onclick = () => { loadWiki(t); closeSidebar(); };
+        bl.appendChild(li);
+    });
+}
+
+function saveThisPage() {
+    if(!currentActiveTitle) return;
+    let b = JSON.parse(localStorage.getItem('favs') || "[]");
+    if(!b.includes(currentActiveTitle)) { 
+        b.push(currentActiveTitle); 
+        localStorage.setItem('favs', JSON.stringify(b)); 
+        renderBookmarks(); 
+        alert("မှတ်သားပြီးပါပြီ"); 
+    }
+}
+
+function removeMark(e, t) {
+    e.stopPropagation();
+    let b = JSON.parse(localStorage.getItem('favs') || "[]");
+    localStorage.setItem('favs', JSON.stringify(b.filter(x => x !== t)));
+    renderBookmarks();
+}
+
+// ၆။ အထွေထွေသုံး လုပ်ဆောင်ချက်များ (PDF ထုတ်ခြင်း၊ နောက်ပြန်သွားခြင်း၊ မာတိကာရှာခြင်း)
+function exportPDF() { window.print(); }
+
+function goBack() { 
+    if (window.history.length > 1) { 
+        window.history.back(); 
+    } else { 
+        alert("နောက်ပြန်သွားရန် မရှိတော့ပါ။"); 
+    } 
+}
+
+function filterMenu() {
+    let filter = document.getElementById("menuSearch").value.toUpperCase();
+    let lis = document.querySelectorAll(".modal-body li");
+    lis.forEach(li => {
+        let text = li.textContent || li.innerText;
+        if (text.toUpperCase().indexOf(filter) > -1) {
+            li.style.display = "";
+        } else {
+            li.style.display = "none";
+        }
+    });
+}
+
+// ၇။ ဖုန်း Back Button သမိုင်းကြောင်း ထိန်းသိမ်းခြင်း စနစ်
+if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+}
+
+window.addEventListener('popstate', function(event) {
+    // ၁။ အကယ်၍ state မှာ title ပါလာလျှင် အဲ့ဒီစာမျက်နှာကို အရင် Load မည်
+    if (event.state && event.state.title) {
+        loadWiki(event.state.title, false); 
+        return; // စာမျက်နှာအသစ် Load လိုက်ရင် အောက်က scroll ကုဒ်ကို မလုပ်တော့ဘဲ ရပ်လိုက်မည်
+    }
+
+    // ၂။ အကယ်၍ စာမျက်နှာအသစ် Load စရာမလိုဘဲ အပေါ်/အောက်သာ ရွှေ့တာဆိုရင်
+    // အပေါ်ဆုံးကို အတင်းတက်မည့် code ကို ဖယ်ထုတ်လိုက်ပါပြီ။ 
+    // ဒါဆိုရင် Browser က အရင်ရောက်ခဲ့တဲ့ Scroll နေရာကို သူ့ဘာသာပြန်မှတ်မိသွားပါလိမ့်မယ်။
+    
+    // မှတ်ချက် - တစ်ချို့ Browser များတွင် scroll position ကို ပြန်ထိန်းထားရန် 
+    // event.state တွင် scroll position ကို သိမ်းထားပေးရန် လိုအပ်နိုင်ပါသည်။
+});
+
+// Search Box တွင် စာရိုက်ပြီး Enter (သို့) Phone Keyboard မှ Search နှိပ်လျှင် တိုက်ရိုက်ရှာရန်
+const searchInputBox = document.getElementById('globalSearch'); // 💡 အစ်ကို့ Search Box ID နှင့် တိုက်စစ်ရန်
+
+searchInputBox.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        e.preventDefault(); 
+        let query = this.value.trim();
+        
+        if (query.length > 0) {
+            // ၁။ အောက်က Suggestion Box ကို ဖျောက်မည်
+            document.getElementById('suggestion-box').style.display = "none";
+            
+            // ၂။ ဖုန်း Keyboard ကို အလိုအလျောက် အောက်ချမည် (ပိတ်မည်)
+            this.blur(); 
+            
+            // ၃။ Wiki တွင် အရင်ရှာမည်၊ မတွေ့ပါက Google ကို အလိုအလျောက် ဆက်ရှာမည်
+            loadWiki(query); 
+        }
+    }
+});
+function switchTab(evt, sectionId) {
+    // စာရင်းအပိုင်းအားလုံးကို အရင်ဖျောက်မယ်
+    const sections = document.getElementsByClassName("tab-section");
+    for (let i = 0; i < sections.length; i++) {
+        sections[i].style.display = "none";
+    }
+    // ခလုတ်အားလုံးကို normal အရောင် ပြန်ပြောင်းမယ်
+    const tabs = document.getElementsByClassName("tab-btn");
+    for (let i = 0; i < tabs.length; i++) {
+        tabs[i].style.background = "#f0f0f0";
+        tabs[i].style.color = "#333";
+        tabs[i].style.fontWeight = "normal";
+    }
+    // နှိပ်လိုက်တဲ့အပိုင်းကိုပဲ ပြပြီး ခလုတ်ကို အရောင်ပြောင်းမယ်
+    document.getElementById(sectionId).style.display = "block";
+    evt.currentTarget.style.background = "#8B4513"; // မိမိအက်ပ်ရဲ့ Theme အရောင်ပြောင်းနိုင်ပါတယ် (ဥပမာ- အညိုရောင်)
+    evt.currentTarget.style.color = "white";
+    evt.currentTarget.style.fontWeight = "bold";
+}
+let searchTimer;
+
+async function liveSearchCombined() {
+    const input = document.getElementById('globalSearch');
+    const keyword = input.value.trim();
+    const suggestionBox = document.getElementById('suggestion-box');
+    
+    if (keyword.length < 2) {
+        suggestionBox.innerHTML = '';
+        suggestionBox.style.display = 'none';
+        return;
+    }
+
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(async () => {
+        try {
+            const wikisourceUrl = `https://my.wikisource.org/w/api.php?action=opensearch&format=json&origin=*&limit=5&search=${encodeURIComponent(keyword)}`;
+            const wikipediaUrl = `https://my.wikipedia.org/w/api.php?action=opensearch&format=json&origin=*&limit=5&search=${encodeURIComponent(keyword)}`;
+
+            const [sourceRes, pediaRes] = await Promise.all([
+                fetch(wikisourceUrl).then(res => res.json()),
+                fetch(wikipediaUrl).then(res => res.json())
+            ]);
+
+            const sourceTitles = sourceRes[1] || [];
+            const pediaTitles = pediaRes[1] || [];
+
+            // ရလဒ်များကို နောက်ကွယ်ကနေ ခွဲခြားသိနိုင်ရန် source ကိုသာ သိမ်းပြီး label များကို ဖယ်ထုတ်လိုက်ပါသည်
+            const combinedSuggestions = [
+                ...sourceTitles.map(title => ({ title, source: 'wikisource' })),
+                ...pediaTitles.map(title => ({ title, source: 'wikipedia' }))
+            ];
+
+            suggestionBox.innerHTML = '';
+            
+            if (combinedSuggestions.length > 0) {
+                combinedSuggestions.forEach(itemData => {
+                    const item = document.createElement('div');
+                    
+                    // 🌟 Label များနှင့် Icon များ လုံးဝမပါဘဲ ခေါင်းစဉ်စာသား သီးသန့်သာ ပြသပါမည်
+                    item.innerText = itemData.title;
+                    
+                    item.style.padding = '10px 12px';
+                    item.style.borderBottom = '1px solid var(--hr-color)';
+                    item.style.cursor = 'pointer';
+                    item.style.textAlign = 'left';
+                    
+                    // စာသားအရှည်ကြီးဖြစ်ပါက ဘောင်ကျော်မသွားဘဲ ... ပုံစံဖြင့် ဖြတ်ပေးမည့်စနစ်
+                    item.style.overflow = 'hidden';
+                    item.style.textOverflow = 'ellipsis';
+                    item.style.whiteSpace = 'nowrap';
+                    
+                    item.onmouseover = () => item.style.background = 'rgba(0, 0, 0, 0.06)';
+                    item.onmouseout = () => item.style.background = 'transparent';
+                    
+                    item.onclick = () => {
+                        if (typeof loadWiki === 'function') {
+                            loadWiki(itemData.title, itemData.source); 
+                        }
+                        input.value = itemData.title;
+                        suggestionBox.style.display = 'none';
+                    };
+                    suggestionBox.appendChild(item);
+                });
+
+                const rect = input.getBoundingClientRect();
+                suggestionBox.style.top = (rect.bottom + 5) + 'px';
+                suggestionBox.style.left = rect.left + 'px';
+                
+                suggestionBox.style.display = 'block'; 
+            } else {
+                suggestionBox.style.display = 'none';
+            }
+        } catch (error) {
+            console.error("Live Search Error:", error);
+        }
+    }, 400); 
+}
+    // 💡 targetUrl ကို အပြောင်းအလဲလုပ်နိုင်ရန် ပြင်ဆင်ထားပါသည်
+async function loadMogokSite(targetUrl = "https://mogokmeditation.com/") {
+    const cBox = document.getElementById('content');
+    cBox.innerHTML = "<p style='text-align:center; padding: 20px;'>ခေတ္တစောင့်ဆိုင်းပါ၊ တရားတော်များ တင်နေပါသည်...</p>";
+    
+    const baseUrl = "https://script.google.com/macros/s/AKfycbyINzJDDXCQ_1z85ISAGKWrFgSv4dXt4G2TwtEyr1Nll4zKi1go9SrCmOSYZFZXs3U6/exec";
+    const fetchUrl = baseUrl + "?url=" + encodeURIComponent(targetUrl);
+    
+    try {
+        const res = await fetch(fetchUrl);
+        let htmlText = await res.text();
+        
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(htmlText, 'text/html');
+        
+        let contentElement = doc.querySelector('main') || doc.querySelector('.entry-content') || doc.querySelector('#primary') || doc.body;
+        
+        const baseDomain = "https://mogokmeditation.com";
+
+        // (က) Audio, Source နှင့် Img ဖိုင်များ၏ လမ်းကြောင်းများကို အပြည့်အစုံပြောင်းခြင်း
+        contentElement.querySelectorAll("audio, source, img").forEach(el => {
+            let src = el.getAttribute("src");
+            if (src && !src.startsWith("http") && !src.startsWith("data:")) {
+                el.setAttribute("src", new URL(src, baseDomain).href);
+            }
+        });
+
+        // (ခ) HTML5 Audio Player အတွက် Controls များနှင့် ပုံစံညှိခြင်း
+        contentElement.querySelectorAll("audio").forEach(audio => {
+            audio.setAttribute("controls", "controls");
+            audio.style.width = "100%";
+            
+            // Audio အထဲက <source> tag တွေရှိရင်လည်း လမ်းကြောင်းလိုက်ပြင်ပေးခြင်း
+            audio.querySelectorAll("source").forEach(source => {
+                let sSrc = source.getAttribute("src");
+                if (sSrc && !sSrc.startsWith("http")) {
+                    source.setAttribute("src", new URL(sSrc, baseDomain).href);
+                }
+            });
+        });
+
+        // (ဂ) Link (<a> tag) အားလုံး၏ href များကို Absolute URL ပြောင်းခြင်း
+        contentElement.querySelectorAll("a").forEach(link => {
+            let href = link.getAttribute("href");
+            if (href && !href.startsWith("http") && !href.startsWith("#") && !href.startsWith("javascript:")) {
+                link.setAttribute("href", new URL(href, baseDomain).href);
+            }
+        });
+
+        // 🎯 ပြင်ဆင်ချက် - innerHTML အစား appendChild သုံးပြီး HTML Object အတိုင်း တိုက်ရိုက်ထည့်သွင်းခြင်း
+        cBox.innerHTML = ""; // စာသားအဟောင်းကို ရှင်းထုတ်
+        cBox.appendChild(contentElement); // ဒြပ်စင်အသစ်ကို ပေါင်းထည့်
+
+        // 🎯 အရေးကြီးဆုံးအပိုင်း - Browser ကို အသံဖိုင်များ အတင်းပြန်ဆွဲခိုင်းခြင်း (Force Reload Audio)
+        cBox.querySelectorAll("audio").forEach(audio => {
+            audio.load();
+        });
+        
+        // 🔗 လင့်ခ်များကို နှိပ်သည့်အခါ Single Page App အဖြစ် ဆက်လုပ်မည့်အပိုင်း
+        cBox.querySelectorAll("a").forEach(link => {
+            link.addEventListener("click", function(e) {
+                let href = this.getAttribute("href");
+                
+                if (!href || href.startsWith("#") || href.startsWith("javascript:")) return;
+                
+                if (href.includes(".mp3") || href.includes(".pdf")) {
+                    return; // MP3/PDF ဆိုလျှင် Browser သဘာဝအတိုင်း ဒေါင်းလုဒ်ဆွဲ/ဖွင့်ခွင့်ပေးမည်
+                }
+                
+                e.preventDefault();
+                loadMogokSite(href); 
+            });
+        });
+        
+    } catch(e) {
+        console.error(e);
+        cBox.innerHTML = "<p style='text-align:center; color: red;'>စာမျက်နှာကို တင်ပြ၍ မရနိုင်ပါ။</p>";
+    }
+}
+
+// 🖨️ ပရင့်စနစ်ကို လှမ်းခေါ်သည့် လုပ်ဆောင်ချက်
+function startPrint() {
+    window.print();
+}
+
+</script>
 </body>
 </html>
